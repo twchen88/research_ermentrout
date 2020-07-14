@@ -1,0 +1,32 @@
+# added a debris/damage component
+# and gotten rid of the positive feedback from F to F
+dV/dt=Gv*I/(1+kvf*f) - Gvh*V*H - alphav*V - (av1*V)/(1+av2*V)
+dH/dt=Bhd*(1-H-i)*H*((H-ep)/(H+ep)) - Ghv*V*H-khf*f*h
+dI/dt=Ghv*H*V/(1+kif*f) - ai*I
+df/dt=(cfi*i-delf*f+kfd*d)/tauf
+# debris/damage is dead infected cells and F injured H cells
+# key parameter that shows 4 behaviors
+# deld is decay rate of debris
+# as deld moves from 1 to .02 get
+# virus kills, sustained infection, clearance, sustained infl, inf induced death
+# 
+dd/dt=-deld*d+khf*f*h+ai*I
+# cfi=.5,tauf=2 works too
+par delf=.5,cfi=0.,deld=.2
+par kvf=5,kif=3,tauf=1,kfi=4
+param Gv=20,Gvh=0.7,alphav=1.7
+par kfd=.3,khf=.2
+param av1=28,av2=1550
+param Bhd=4,Ghv=0.7,ai=1.5,ep=0.1
+
+param bFH=17,bF=125,aF=8,aR=1
+
+
+init H=1,V=0.01
+
+@ method=qualrk, tol=1e-10, dt=0.05, total=80, bounds=1e70
+
+@ xp=V, yp=H, xlo=-0.1, xhi=4, ylo=-0.1, yhi=1.1, bell=0
+
+
+done

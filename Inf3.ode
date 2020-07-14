@@ -1,0 +1,25 @@
+d=1-h-i
+dV/dt=Gv*I/(1+kvf*f) - Gvh*V*H - alphav*V - (av1*V)/(1+av2*V)
+dH/dt=Bhd*d*H*((H-ep)/(H+ep)) - Ghv*V*H-khf*f*h
+dI/dt=Ghv*H*V/(1+kif*f) - ai*I
+df/dt=(cfi*i-delf*f+kfh*d*f+kff*f^2/(1+b2*f^2))/tauf
+aux d=d
+
+par delf=.5,cfi=2
+par kvf=5,kif=3,tauf=2
+param Gv=20,Gvh=0.7,alphav=1.7
+par kfh=.3,khf=.3,kff=1.2,b2=1
+param av1=28,av2=1550
+param Bhd=4,Ghv=0.7,ai=1.5,ep=0.1
+
+param bFH=17,bF=125,aF=8,aR=1
+
+
+init H=1,V=0.01
+
+@ method=qualrk, tol=1e-10, dt=0.05, total=80, bounds=1e70
+
+@ xp=V, yp=H, xlo=-0.1, xhi=4, ylo=-0.1, yhi=1.1, bell=0
+
+
+done
