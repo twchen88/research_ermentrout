@@ -1,0 +1,35 @@
+# 4eqn model turned into compartmental model
+
+# equations - U = upper resp tract, L = lower resp tract
+dVu/dt=Gv*Iu/(1+kvf*Fu) - Gvh*Vu*Hu - alphav*Vu - (av1u*Vu)/(1+av2*Vu) + (s*Vl)/(1+w*Vl)
+dHu/dt=Bhd*(0.33-Iu-Hu)*Hu*((Hu-epu)/(Hu+epu)) - Ghv*Vu*Hu - ahf*Hu*Fu
+dIu/dt=Ghv*Hu*Vu - ai*Iu - aif*Fu*Iu
+dFu/dt=gf*Du + bfi*Iu - af*Fu
+
+dVl/dt=Gv*Il/(1+kvf*Fl)- Gvh*Vl*Hl - alphavl*Vl - (av1*Vl)/(1+av2*Vl) - (s*Vl)/(1+w*Vl)
+dHl/dt=Bhd*(1-Il-Hl)*Hl*((Hl-ep)/(Hl+ep)) - Ghv*Vl*Hl - ahf*Hl*Fl
+dIl/dt=Ghv*Hl*Vl - ai*Il - aif*Fl*Il
+dFl/dt=gf*Dl + bfi*Il  - af*Fl
+
+Du = 0.33-Hu-Iu
+Dl = 1-Hl-Il
+
+# Parameter values
+param Gv=40,Gvh=0.7,alphav=0.7
+param av1u=28,av2=1550, av1=28
+param Bhd=4,Ghv=0.7,ai=1.5,ep=0.05
+param s=14, w=1550, alphavl=1.7, epu=0.05
+param kvf=5, ahf=0.7, aif=0.7, gf=2.5, af=0.05, bfi=0.5
+
+
+
+init Hl=1,Vu=0,Hu=0.33,Vl=0.01,Iu=0,Il=0, Fu=0, Fl=0
+
+@ method=gear, tol=1e-7, dt=0.001, total=25, bounds=1e70
+
+@ xp=t, yp=Hl, xlo=-0.1, xhi=25, ylo=-0.1, yhi=1.1, bell=0
+
+@ maxstore=100000 
+
+
+done
